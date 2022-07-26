@@ -12,15 +12,15 @@ type Test struct {
 
 func TestHandler(t *testing.T) {
 	s := &Test{0}
-	New[*Test]().Then(func(p *Pack[*Test], next func(*Pack[*Test])) {
-		p.Data.D++
+	New[*Test]().Then(func(p *Test, next func(*Test)) {
+		p.D++
 		next(p)
-	}).Then(func(p *Pack[*Test], next func(*Pack[*Test])) {
+	}).Then(func(p *Test, next func(*Test)) {
+		p.D++
 		next(p)
-		p.Data.D++
-	}).Final(func(p *Pack[*Test]) {
-		p.Data.D++
-	}).Handle(P(s))
+	}).Final(func(p *Test) {
+		p.D++
+	}).Handle(s)
 
 	assert.Equal(t, 3, s.D)
 }
